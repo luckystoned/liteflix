@@ -15,7 +15,7 @@ export interface MoviesDto {
   overview: string;
   popularity: number;
   poster_path: string;
-  release_date: string; // You could also use Date if parsed to a Date object
+  release_date: string;
   title: string;
   video: boolean;
   vote_average: number;

@@ -1,9 +1,9 @@
 import React from "react";
 import { useRandomMovie } from "../../hooks";
-import * as S from "./MovieInformation.styles";
 import { Button, Text } from "../../styles";
 import playSvg from "../../assets/img/play.svg";
 import plusSvg from "../../assets/img/plus.svg";
+import * as S from "./MovieInformation.styles";
 
 export const MovieInformation: React.FC = () => {
   const { currentRandomMovie } = useRandomMovie();

@@ -1,66 +1,50 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { fetchRandomMovies } from "../data/rest/liteflixRest";
+import { useMovieBackground } from "./useMovieBackground";
 import { MoviesDto } from "../types/liteflixTypes";
 
 export const useRandomMovie = () => {
-  const [currentRandomMovie, setCurrentRandomMovie] = useState<MoviesDto>(
-    {} as MoviesDto
-  );
+  const [currentRandomMovie, setCurrentRandomMovie] = useState<MoviesDto>({} as MoviesDto);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [bunchOfRandomMovies, setBunchOfRandomMovies] = useState<MoviesDto[]>([]);
+  const [randomMovies, setRandomMovies] = useState<MoviesDto[]>([]);
   const [alreadyShownMovies, setAlreadyShownMovies] = useState<number[]>([]);
 
-  //TODO REFACTOR
-  const changeMovieBackground = (url: string) => {
-    const movieBackground = document.querySelector("#movie-background") as HTMLImageElement | null;
-    const backgroundUrl =
-      "https://image.tmdb.org/t/p/" +
-      (window.innerWidth <= 800 ? "w500" : "original") +
-      "/" +
-      url;
+  const changeMovieBackground = useMovieBackground();
 
-    movieBackground?.setAttribute("src", backgroundUrl);
-  };
-
-  const getBunchOfRandomMovies = async () => {
+  const getRandomMovies = useCallback(async () => {
     setIsLoading(true);
-
-    const movies: MoviesDto[] = await fetchRandomMovies();
-    setBunchOfRandomMovies(movies);
+    const movies = await fetchRandomMovies();
+    setRandomMovies(movies);
+    setIsLoading(false);
 
     if (movies.length > 0) {
-      changeMovieBackground(movies[0].backdrop_path);
-      setCurrentRandomMovie(movies[0]);
-      setAlreadyShownMovies([movies[0].id]);
+      const firstMovie = movies[0];
+      changeMovieBackground(firstMovie.backdrop_path);
+      setCurrentRandomMovie(firstMovie);
+      setAlreadyShownMovies([firstMovie.id]);
     }
+  }, [changeMovieBackground]);
 
-    setIsLoading(false);
-  };
-
-  const pickRandomMovie = (intervalId: NodeJS.Timeout) => {
-    const movieNotShown = bunchOfRandomMovies.find(
-      (movie) => !alreadyShownMovies.includes(movie.id)
-    );
+  const pickRandomMovie = useCallback(() => {
+    const movieNotShown = randomMovies.find((movie) => !alreadyShownMovies.includes(movie.id));
 
     if (movieNotShown) {
       changeMovieBackground(movieNotShown.backdrop_path);
       setCurrentRandomMovie(movieNotShown);
       setAlreadyShownMovies((prev) => [...prev, movieNotShown.id]);
-
-      if (alreadyShownMovies.length + 1 === bunchOfRandomMovies.length) {
-        clearInterval(intervalId);
-      }
+    } else {
+      setAlreadyShownMovies([]);
     }
-  };
+  }, [alreadyShownMovies, randomMovies, changeMovieBackground]);
 
   useEffect(() => {
-    getBunchOfRandomMovies();
-  }, []);
+    getRandomMovies();
+  }, [getRandomMovies]);
 
   useEffect(() => {
-    const intervalId: NodeJS.Timer = setInterval(() => pickRandomMovie(intervalId), 8000);
+    const intervalId: NodeJS.Timeout = setInterval(pickRandomMovie, 8000);
     return () => clearInterval(intervalId);
-  }, [bunchOfRandomMovies]);
+  }, [pickRandomMovie]);
 
   return {
     currentRandomMovie,

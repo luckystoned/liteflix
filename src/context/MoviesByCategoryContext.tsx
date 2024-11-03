@@ -1,9 +1,7 @@
 import React, { createContext, ReactNode } from "react";
 import { useMoviesCategory, UseMoviesCategoryState } from "../hooks";
 
-// REFACTO AN ADD TYPES
 interface MoviesByCategoryContextType extends UseMoviesCategoryState {
-  // Añadir aquí los tipos de retorno específicos de useMoviesCategory
   [key: string]: any;
 }
 
