@@ -4,18 +4,7 @@ import { MoviePreview } from "../MoviePreview/MoviePreview";
 import { Text } from "../../styles";
 import * as S from "./MoviesColumn.styles";
 import sadFaceSvg from "../../assets/img/sad-face.png";
-
-//TODO REFACTOR
-interface Movie {
-  _id?: string;
-  backdrop_path: string;
-  title: string;
-  isUserMovie?: boolean;
-  imgUrl?: string;
-  vote_average?: number;
-  release_date?: string;
-  [key: string]: any;
-}
+import { Movie } from "../../types/liteflixTypes";
 
 export const MoviesColumn: React.FC = () => {
   const { movies, isLoading } = useContext(MoviesContext);

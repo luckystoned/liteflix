@@ -1,8 +1,5 @@
 import { componentScreen } from "../components/UploadModal/componentScreen";
-import { UploadScreensState } from "../types/liteflixTypes";
-
-//TODO PASAR A ARCHIVO DE TIPOS
-export type ScreenKey = "loading" | "dropzone" | "loaded" | "uploaded" | "error";
+import { ScreenKey, UploadScreensState } from "../types/liteflixTypes";
 
 export const uploadFileReducer = (_state: UploadScreensState, screen: ScreenKey): UploadScreensState => {
   const dispatchedScreen = componentScreen[screen];

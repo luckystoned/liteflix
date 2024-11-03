@@ -1,21 +1,12 @@
 import React, { createContext, ReactNode } from "react";
 import { useToggle } from "../hooks";
-
-
-interface MenuContextType {
-  isOpen: boolean;
-  toggleIsOpen: () => void;
-}
+import { ContextProviderProps, MenuContextType } from "../types/liteflixTypes";
 
 export const MenuContext = createContext<MenuContextType>(
   {} as MenuContextType
 );
 
-interface MenuContextProviderProps {
-  children: ReactNode;
-}
-
-export const MenuContextProvider: React.FC<MenuContextProviderProps> = ({ children }) => {
+export const MenuContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
   const { isOpen, toggleIsOpen } = useToggle();
 
   return (

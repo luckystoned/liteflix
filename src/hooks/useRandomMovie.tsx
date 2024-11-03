@@ -4,18 +4,17 @@ import { useMovieBackground } from "./useMovieBackground";
 import { MoviesDto } from "../types/liteflixTypes";
 
 export const useRandomMovie = () => {
+  //TODO REFACTOR TO USE A HOOK FOR MOVIE BACKGROUND
   const [currentRandomMovie, setCurrentRandomMovie] = useState<MoviesDto>({} as MoviesDto);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   const [randomMovies, setRandomMovies] = useState<MoviesDto[]>([]);
   const [alreadyShownMovies, setAlreadyShownMovies] = useState<number[]>([]);
 
   const changeMovieBackground = useMovieBackground();
 
   const getRandomMovies = useCallback(async () => {
-    setIsLoading(true);
     const movies = await fetchRandomMovies();
     setRandomMovies(movies);
-    setIsLoading(false);
 
     if (movies.length > 0) {
       const firstMovie = movies[0];
@@ -46,8 +45,5 @@ export const useRandomMovie = () => {
     return () => clearInterval(intervalId);
   }, [pickRandomMovie]);
 
-  return {
-    currentRandomMovie,
-    isLoading,
-  };
+  return { currentRandomMovie };
 };

@@ -1,9 +1,5 @@
 import { useState, useCallback } from 'react';
-
-interface UseToggle {
-  isOpen: boolean;
-  toggleIsOpen: () => void;
-}
+import { UseToggle } from '../types/liteflixTypes';
 
 export const useToggle = (initialState: boolean = false): UseToggle => {
   const [isOpen, setIsOpen] = useState(initialState);

@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from "react";
 import { MoviesContext } from "../../../context"
+import { ScreenKey } from "../../../types/liteflixTypes";
 import { Text } from "../../../styles/Text";
-
 import * as S from "./LoadingScreen.styles";
-import { ScreenKey } from "../../../store";
+
 
 export const LoadingScreen: React.FC = () => {
   const { dispatch, nextScreen } = useContext(MoviesContext);

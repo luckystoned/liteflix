@@ -8,6 +8,7 @@ import * as S from "./Menu.styles";
 import bellSvg from "../../assets/img/bell.svg";
 import profileImage from "../../assets/img/profile-image.png";
 
+//TODO TO ADD Utils
 const listItems: string[] = [
   "Inicio",
   "Series",

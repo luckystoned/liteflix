@@ -3,20 +3,8 @@ import cs from "classnames";
 import { useToggle } from "../../hooks";
 import { Text } from "../../styles";
 import * as S from "./MoviePreview.styles";
+import { MoviePreviewProps } from "../../types/liteflixTypes";
 
-//TODO REFACTOR
-interface MovieInfo {
-  title: string;
-  isUserMovie?: boolean;
-  imgUrl?: string;
-  backdrop_path?: string;
-  vote_average?: number;
-  release_date?: string;
-}
-
-interface MoviePreviewProps {
-  movieInfo: MovieInfo;
-}
 
 export const MoviePreview: React.FC<MoviePreviewProps> = ({ movieInfo }) => {
   const { isOpen, toggleIsOpen } = useToggle();

@@ -1,28 +1,20 @@
-import React, { createContext, useReducer, ReactNode } from "react";
-import { ScreenKey, uploadFileReducer } from "../store";
-import { useMovies, UseMoviesDto } from "../hooks";
-import { UploadScreensState } from "../types/liteflixTypes";
+import React, { createContext, useReducer } from "react";
+import { uploadFileReducer } from "../store";
+import { useMovies } from "../hooks";
+import { MovieContextDto, ContextProviderProps, UploadScreensState, UseMoviesDto } from "../types/liteflixTypes";
 import { DropZoneScreen } from "../components";
 
-interface MovieContextDto extends UploadScreensState, UseMoviesDto {
-  dispatch: React.Dispatch<ScreenKey>;
-}
-
-export const MoviesContext = createContext<MovieContextDto>(
-  {} as MovieContextDto
-);
-
-interface MoviesContextProviderProps {
-  children: ReactNode;
-}
 
 const initialState: UploadScreensState = {
   screen: "dropzone",
   component: <DropZoneScreen />,
   nextScreen: "loading",
 };
+export const MoviesContext = createContext<MovieContextDto>(
+  {} as MovieContextDto
+);
 
-export const MoviesContextProvider: React.FC<MoviesContextProviderProps> = ({ children }) => {
+export const MoviesContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
   const [{ screen, component, nextScreen }, dispatch] = useReducer(uploadFileReducer, initialState);
 
   const useMoviesValues: UseMoviesDto = useMovies();

@@ -1,9 +1,9 @@
 import React, { useContext, useRef } from "react"
 import cs from "classnames"
 import { MoviesContext } from "../../context"
+import { ScreenKey } from "../../types/liteflixTypes"
 import * as S from "./UploadModal.styles"
 import closeSvg from "../../assets/img/cerrar.svg"
-import { ScreenKey } from "../../store"
 
 export const UploadModal = () => {
   const {
@@ -29,8 +29,8 @@ export const UploadModal = () => {
         setMovieTitle("")
         setMovieFile(new File([""], "default", { type: "image/png" }))
         toggleIsOpen()
-      }
 
+      }
       dispatch(nextScreen as ScreenKey)
     }
   }

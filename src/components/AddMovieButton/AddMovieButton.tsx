@@ -2,10 +2,7 @@ import React, { useContext } from "react";
 import { MoviesContext } from "../../context";
 import { Text } from "../../styles";
 import plusSvg from "../../assets/img/plus.svg";
-
-interface AddMovieButtonProps {
-  size?: string;
-}
+import { AddMovieButtonProps } from "../../types/liteflixTypes";
 
 export const AddMovieButton: React.FC<AddMovieButtonProps> = ({ size }) => {
   const { toggleIsOpen } = useContext(MoviesContext);

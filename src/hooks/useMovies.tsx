@@ -1,17 +1,9 @@
 import { useEffect, useState, useCallback } from 'react';
 import { fetchPopularMovies, getSavedMovies, uploadMovieToDb } from '../data/rest/liteflixRest';
-import { MoviesDto, GetSavedMoviesDto } from '../types/liteflixTypes';
+import { MoviesDto, GetSavedMoviesDto, UseMoviesDto, Category, CategoryKey } from '../types/liteflixTypes';
 import { useToggle } from './useToggle';
 
-
-//TODO MOVE INTERFACE TO TYPES
-export interface Category {
-  title: string;
-  tag: CategoryKey;
-}
-
-export type CategoryKey = 'popular' | 'my_movies';
-
+//TODO ADD TO UTILS
 const availableCategories: Record<CategoryKey, Category> = {
   popular: {
     title: 'Populares',
@@ -21,26 +13,7 @@ const availableCategories: Record<CategoryKey, Category> = {
     title: 'Mis Peliculas',
     tag: 'my_movies',
   },
-};
-
-//TODO PASAR A ARCHIVO DE TIPOS
-// Definir el tipo para el hook de estado
-export interface UseMoviesDto {
-  currentCategory: Category;
-  availableCategories: Record<CategoryKey, Category>;
-  movies: any[]; // TODO Ajusta `any` según el tipo específico de datos de tus películas
-  isLoading: boolean;
-  changeToCategory: (category: CategoryKey) => void;
-  movieTitle: string;
-  movieFile: File;
-  isUploaded: boolean;
-  isOpen: boolean;
-  uploadMovie: (movieFile: File, movieTitle: string) => Promise<void>;
-  setMovieTitle: React.Dispatch<React.SetStateAction<string>>;
-  setMovieFile: React.Dispatch<React.SetStateAction<File>>;
-  setIsUploaded: React.Dispatch<React.SetStateAction<boolean>>;
-  toggleIsOpen: () => void;
-}
+}; 
 
 // Hook personalizado para gestionar las categorías de películas
 export const useMovies = (): UseMoviesDto => {

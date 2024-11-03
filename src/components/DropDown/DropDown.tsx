@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import cs from "classnames";
 import { MoviesContext } from "../../context";
-import { Category, CategoryKey, useToggle } from "../../hooks";
+import { useToggle } from "../../hooks";
 import { Text } from "../../styles";
 import * as S from "./DropDown.styles";
 import arrowDownSvg from "../../assets/img/down-arrow.svg";
+import { Category, CategoryKey } from "../../types/liteflixTypes";
 
 
 export const DropDown: React.FC = () => {
