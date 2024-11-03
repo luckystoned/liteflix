@@ -1,6 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
-import { fetchPopularMovies, getSavedMovies } from '../data/rest/liteflixRest';
+import { fetchPopularMovies, getSavedMovies, uploadMovieToDb } from '../data/rest/liteflixRest';
 import { MoviesDto, GetSavedMoviesDto } from '../types/liteflixTypes';
+import { useToggle } from './useToggle';
+
 
 //TODO MOVE INTERFACE TO TYPES
 export interface Category {
@@ -23,16 +25,31 @@ const availableCategories: Record<CategoryKey, Category> = {
 
 //TODO PASAR A ARCHIVO DE TIPOS
 // Definir el tipo para el hook de estado
-export interface UseMoviesCategoryState {
+export interface UseMoviesDto {
   currentCategory: Category;
   availableCategories: Record<CategoryKey, Category>;
   movies: any[]; // TODO Ajusta `any` según el tipo específico de datos de tus películas
   isLoading: boolean;
   changeToCategory: (category: CategoryKey) => void;
+  movieTitle: string;
+  movieFile: File;
+  isUploaded: boolean;
+  isOpen: boolean;
+  uploadMovie: (movieFile: File, movieTitle: string) => Promise<void>;
+  setMovieTitle: React.Dispatch<React.SetStateAction<string>>;
+  setMovieFile: React.Dispatch<React.SetStateAction<File>>;
+  setIsUploaded: React.Dispatch<React.SetStateAction<boolean>>;
+  toggleIsOpen: () => void;
 }
 
 // Hook personalizado para gestionar las categorías de películas
-export const useMoviesCategory = (): UseMoviesCategoryState => {
+export const useMovies = (): UseMoviesDto => {
+  const [movieTitle, setMovieTitle] = useState<string>("");
+  const [movieFile, setMovieFile] = useState<File>(
+    new File([""], "default", { type: "image/png" })
+  );
+  const [isUploaded, setIsUploaded] = useState<boolean>(false);
+  const { isOpen, toggleIsOpen } = useToggle();
   const [currentCategory, setCurrentCategory] = useState<Category>(availableCategories['popular']);
   const [movies, setMovies] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -70,16 +87,31 @@ export const useMoviesCategory = (): UseMoviesCategoryState => {
     }
   }, []);
 
+  const uploadMovie = useCallback(async (movieFile: File, movieTitle: string) => {
+    const response = await uploadMovieToDb(movieFile, movieTitle);
+    console.log('Película guardada en la base de datos:', response);
+  }
+  , []);
+
   // Ejecutar al cambiar de categoría
   useEffect(() => {
     getMoviesByCategory(currentCategory);
   }, [currentCategory, getMoviesByCategory]);
 
   return {
+    uploadMovie,
     currentCategory,
     availableCategories,
     movies,
     isLoading,
     changeToCategory,
+    movieTitle,
+    movieFile,
+    isUploaded,
+    isOpen,
+    setMovieTitle,
+    setMovieFile,
+    setIsUploaded,
+    toggleIsOpen,
   };
 };

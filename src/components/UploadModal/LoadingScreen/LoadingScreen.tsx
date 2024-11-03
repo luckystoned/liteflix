@@ -1,18 +1,19 @@
 import React, { useContext, useEffect } from "react";
-import { MoviesContex } from "../../../context"
+import { MoviesContext } from "../../../context"
 import { Text } from "../../../styles/Text";
 
 import * as S from "./LoadingScreen.styles";
+import { ScreenKey } from "../../../store";
 
 export const LoadingScreen: React.FC = () => {
-  const { dispatch, nextScreen } = useContext(MoviesContex);
+  const { dispatch, nextScreen } = useContext(MoviesContext);
 
   const handleCancelClick = () => {
     dispatch("dropzone");
   };
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => dispatch(nextScreen), 4000);
+    const timeoutId = setTimeout(() => dispatch(nextScreen as ScreenKey), 4000);
     return () => clearTimeout(timeoutId);
   }, [dispatch, nextScreen]);
 

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { MoviesByCategoryContext } from "../../context";
+import { MoviesContext } from "../../context";
 import { MoviePreview } from "../MoviePreview/MoviePreview";
 import { Text } from "../../styles";
 import * as S from "./MoviesColumn.styles";
@@ -18,12 +18,13 @@ interface Movie {
 }
 
 export const MoviesColumn: React.FC = () => {
-  const { movies, isLoading } = useContext(MoviesByCategoryContext);
+  const { movies, isLoading } = useContext(MoviesContext);
 
   const renderSkeleton = () => {
     return [1, 2, 3, 4].map((number) => <S.MovieSkeleton key={number} />);
   };
 
+  //TODO REMOVE FOR A BETTER SOLUTION
   const renderSadFace = () => {
     return (
       <>

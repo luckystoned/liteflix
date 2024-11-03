@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { GetSavedMoviesDto, MoviesDto } from '../../types/liteflixTypes';
 import liteflixGwApi from '../liteflixGwApi';
+import apiCloudinary from '../apiCloudinary';
 
 export const getSavedMovies = async (): Promise<GetSavedMoviesDto[]> => {
   try {
@@ -31,4 +32,44 @@ export const fetchRandomMovies = async (): Promise<MoviesDto[]> => {
   const movies = response.data.results;
 
   return movies.slice(-4);
+};
+
+//TODO pasar a custom hook
+const uploadToCloudinary = async (file: File): Promise<string | null> => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', 'liteflix-preset');
+
+  try {
+    const response = await apiCloudinary.post('/upload', formData);
+    return response.data.secure_url;
+  } catch (error) {
+    console.error('Error subiendo la imagen a Cloudinary:', error);
+    return null;
+  }
+};
+
+//TODO MOVE TO LITEFLIX GW API
+export const uploadMovieToDb = async (movieFile: File, movieTitle: string) => {
+  const fileUrl = await uploadToCloudinary(movieFile); // Usa movieFile directamente
+
+  //quitar if
+  if (fileUrl) {
+    try {
+      const response = await liteflixGwApi.post('/movie', {
+        title: movieTitle,
+        imgUrl: fileUrl,
+        //TODO REMOVE GENRE
+        tmdbGenreId: 28,
+      });
+      console.log('Película guardada en la base de datos:', response.data);
+
+      //TODO setIsUploaded(true);
+      return response.data;
+    } catch (error) {
+      console.error('Error guardando la película en la base de datos:', error);
+    }
+  } else {
+    console.log('Error: No se pudo subir la imagen a Cloudinary');
+  }
 };

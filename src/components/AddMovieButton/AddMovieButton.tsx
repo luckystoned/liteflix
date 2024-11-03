@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { MoviesContex } from "../../context";
+import { MoviesContext } from "../../context";
 import { Text } from "../../styles";
 import plusSvg from "../../assets/img/plus.svg";
 
@@ -8,7 +8,7 @@ interface AddMovieButtonProps {
 }
 
 export const AddMovieButton: React.FC<AddMovieButtonProps> = ({ size }) => {
-  const { toggleIsOpen } = useContext(MoviesContex);
+  const { toggleIsOpen } = useContext(MoviesContext);
 
   const handleAddMovieClick = () => {
     toggleIsOpen();

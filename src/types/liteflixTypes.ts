@@ -21,3 +21,9 @@ export interface MoviesDto {
   vote_average: number;
   vote_count: number;
 }
+
+export interface UploadScreensState {
+  screen: string;
+  component: JSX.Element;
+  nextScreen: string;
+}

@@ -1,8 +1,9 @@
 import React, { useContext, useRef } from "react"
 import cs from "classnames"
-import { MoviesContex } from "../../context"
+import { MoviesContext } from "../../context"
 import * as S from "./UploadModal.styles"
 import closeSvg from "../../assets/img/cerrar.svg"
+import { ScreenKey } from "../../store"
 
 export const UploadModal = () => {
   const {
@@ -17,12 +18,12 @@ export const UploadModal = () => {
     setMovieTitle,
     setMovieFile,
     toggleIsOpen,
-  } = useContext(MoviesContex)
+  } = useContext(MoviesContext)
   const inputTitleRef = useRef<HTMLInputElement>(null)
 
   const handleUploadMovieClick = async () => {
     if (movieFile && movieTitle) {
-      if (screen === "loaded") uploadMovie()
+      if (screen === "loaded") uploadMovie(movieFile, movieTitle)
 
       if (screen === "uploaded") {
         setMovieTitle("")
@@ -30,7 +31,7 @@ export const UploadModal = () => {
         toggleIsOpen()
       }
 
-      dispatch(nextScreen)
+      dispatch(nextScreen as ScreenKey)
     }
   }
 

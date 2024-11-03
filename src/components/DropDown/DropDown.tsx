@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import cs from "classnames";
-import { MoviesByCategoryContext } from "../../context";
+import { MoviesContext } from "../../context";
 import { Category, CategoryKey, useToggle } from "../../hooks";
 import { Text } from "../../styles";
 import * as S from "./DropDown.styles";
@@ -8,7 +8,7 @@ import arrowDownSvg from "../../assets/img/down-arrow.svg";
 
 
 export const DropDown: React.FC = () => {
-  const { currentCategory, availableCategories, changeToCategory } = useContext(MoviesByCategoryContext);
+  const { currentCategory, availableCategories, changeToCategory } = useContext(MoviesContext);
   const { isOpen, toggleIsOpen } = useToggle();
 
   const handleDropDownClick = () => {

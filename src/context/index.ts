@@ -1,3 +1,2 @@
-export * from "./MenuContextProvider"
-export * from "./MoviesByCategoryContext"
-export * from "./MoviesContextProvider"
+export * from './MenuContextProvider';
+export * from './MoviesContextProvider';

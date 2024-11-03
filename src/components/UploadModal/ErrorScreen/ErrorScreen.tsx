@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import { MoviesContex } from "../../../context"
+import { MoviesContext } from "../../../context"
 import { Text } from "../../../styles/Text";
 import * as S from "./ErrorScreen.styles";
 
 export const ErrorScreen: React.FC = () => {
-  const { dispatch } = useContext(MoviesContex);
+  const { dispatch } = useContext(MoviesContext);
 
   const handleRetryClick = () => {
     dispatch("dropzone");
