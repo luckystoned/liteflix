@@ -82,7 +82,7 @@ export interface UploadScreensState {
 
 export interface UseMoviesDto {
   currentCategory: Category;
-  availableCategories: Record<CategoryKey, Category>;
+  availableMovieCategories: Record<CategoryKey, Category>;
   movies: any[]; // TODO Ajusta `any` según el tipo específico de datos de tus películas
   isLoading: boolean;
   changeToCategory: (category: CategoryKey) => void;

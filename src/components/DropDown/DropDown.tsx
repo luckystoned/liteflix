@@ -9,7 +9,7 @@ import { Category, CategoryKey } from "../../types/liteflixTypes";
 
 
 export const DropDown: React.FC = () => {
-  const { currentCategory, availableCategories, changeToCategory } = useContext(MoviesContext);
+  const { currentCategory, availableMovieCategories, changeToCategory } = useContext(MoviesContext);
   const { isOpen, toggleIsOpen } = useToggle();
 
   const handleDropDownClick = () => {
@@ -28,7 +28,7 @@ export const DropDown: React.FC = () => {
   };
 
   const renderCategoryList = () => {
-    return (Object.values(availableCategories) as Category[]).map((category: Category) => (
+    return (Object.values(availableMovieCategories) as Category[]).map((category: Category) => (
       <li onClick={() => handleCategoryItemClick(category.tag)} key={category.tag}>
         <Text $weight={category.tag === currentCategory.tag ? "bold" : "normal"} $size="16px">
           {category.title}

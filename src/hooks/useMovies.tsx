@@ -2,18 +2,10 @@ import { useEffect, useState, useCallback } from 'react';
 import { fetchPopularMovies, getSavedMovies, uploadMovieToDb } from '../data/rest/liteflixRest';
 import { MoviesDto, GetSavedMoviesDto, UseMoviesDto, Category, CategoryKey } from '../types/liteflixTypes';
 import { useToggle } from './useToggle';
+import { availableMovieCategories } from '../utils/utils';
 
 //TODO ADD TO UTILS
-const availableCategories: Record<CategoryKey, Category> = {
-  popular: {
-    title: 'Populares',
-    tag: 'popular',
-  },
-  my_movies: {
-    title: 'Mis Peliculas',
-    tag: 'my_movies',
-  },
-}; 
+
 
 // Hook personalizado para gestionar las categorías de películas
 export const useMovies = (): UseMoviesDto => {
@@ -23,13 +15,13 @@ export const useMovies = (): UseMoviesDto => {
   );
   const [isUploaded, setIsUploaded] = useState<boolean>(false);
   const { isOpen, toggleIsOpen } = useToggle();
-  const [currentCategory, setCurrentCategory] = useState<Category>(availableCategories['popular']);
+  const [currentCategory, setCurrentCategory] = useState<Category>(availableMovieCategories['popular']);
   const [movies, setMovies] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // Función para cambiar de categoría
   const changeToCategory = useCallback((category: CategoryKey) => {
-    setCurrentCategory(availableCategories[category]);
+    setCurrentCategory(availableMovieCategories[category]);
   }, []);
 
   // Función para obtener las películas según la categoría seleccionada
@@ -74,7 +66,7 @@ export const useMovies = (): UseMoviesDto => {
   return {
     uploadMovie,
     currentCategory,
-    availableCategories,
+    availableMovieCategories,
     movies,
     isLoading,
     changeToCategory,

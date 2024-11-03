@@ -7,17 +7,7 @@ import { AppLogo, Flex, Text, WithBadge } from "../../styles";
 import * as S from "./Menu.styles";
 import bellSvg from "../../assets/img/bell.svg";
 import profileImage from "../../assets/img/profile-image.png";
-
-//TODO TO ADD Utils
-const listItems: string[] = [
-  "Inicio",
-  "Series",
-  "Peliculas",
-  "Agregadas Recientemente",
-  "Populares",
-  "Mis peliculas",
-  "Mi lista",
-];
+import { menuListItems } from "../../utils/utils";
 
 export const Menu: React.FC = () => {
   const { isOpen } = useContext(MenuContext);
@@ -48,7 +38,7 @@ export const Menu: React.FC = () => {
         </S.Header>
 
         <S.ListItems>
-          {listItems.map((list) => (
+          {menuListItems.map((list) => (
             <Text key={list} $size="22px">
               {list}
             </Text>
