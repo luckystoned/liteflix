@@ -6,6 +6,16 @@ import * as S from "./NavBar.styles";
 import bellSvg from "../../assets/img/bell.svg";
 import profileImage from "../../assets/img/profile-image.png";
 
+const NotificationBell: React.FC = () => (
+  <WithBadge>
+    <img src={bellSvg} alt="bell with notification badge" />
+  </WithBadge>
+);
+
+const UserProfile: React.FC = () => (
+  <img src={profileImage} alt="user profile pic" />
+);
+
 export const NavBar: React.FC = () => {
   const { isMobile } = useDevice();
 
@@ -21,16 +31,8 @@ export const NavBar: React.FC = () => {
 
         <Flex $gap="2">
           <BurgerMenu />
-
-          {!isMobile ? (
-            <WithBadge>
-              <img src={bellSvg} alt="bell with notification badge" />
-            </WithBadge>
-          ) : (
-            <AppLogo />
-          )}
-
-          <img src={profileImage} alt="user profile pic" />
+          {isMobile ? <AppLogo /> : <NotificationBell />}
+          <UserProfile />
         </Flex>
       </S.Container>
     </S.NavBar>

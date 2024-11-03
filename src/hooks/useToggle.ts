@@ -1,7 +1,8 @@
 import { useState, useCallback } from 'react';
-import { UseToggle } from '../types/liteflixTypes';
+import { UseToggleDto } from '../types/liteflixTypes';
 
-export const useToggle = (initialState: boolean = false): UseToggle => {
+
+export const useToggle = (initialState: boolean = false): UseToggleDto => {
   const [isOpen, setIsOpen] = useState(initialState);
 
   const toggleIsOpen = useCallback(() => {

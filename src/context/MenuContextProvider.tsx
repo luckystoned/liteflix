@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode } from "react";
+import React, { createContext } from "react";
 import { useToggle } from "../hooks";
 import { ContextProviderProps, MenuContextType } from "../types/liteflixTypes";
 

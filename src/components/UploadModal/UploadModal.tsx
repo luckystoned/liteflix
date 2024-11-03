@@ -23,49 +23,67 @@ export const UploadModal = () => {
 
   const handleUploadMovieClick = async () => {
     if (movieFile && movieTitle) {
-      if (screen === "loaded") uploadMovie(movieFile, movieTitle)
+      if (screen === "loaded") {
+        await uploadMovie(movieFile, movieTitle)
+      }
 
       if (screen === "uploaded") {
-        setMovieTitle("")
-        setMovieFile(new File([""], "default", { type: "image/png" }))
+        resetForm()
         toggleIsOpen()
-
       }
       dispatch(nextScreen as ScreenKey)
     }
   }
 
-  const handleMovieTitleChange = (value: string) => {
-    setMovieTitle(value)
+  const resetForm = () => {
+    setMovieTitle("")
+    setMovieFile(new File([""], "default", { type: "image/png" }))
+  }
+
+  const handleMovieTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMovieTitle(event.target.value)
+  }
+
+  const renderHeader = () => {
+    if (screen !== "uploaded") {
+      return <S.Header>Agregar película</S.Header>
+    }
+  }
+
+  const renderInputTitle = () => {
+    if (screen !== "uploaded") {
+      return (
+        <S.InputTitle
+          placeholder="TÍTULO"
+          ref={inputTitleRef}
+          value={movieTitle}
+          onChange={handleMovieTitleChange}
+        />
+      )
+    }
+  }
+
+  const renderUploadButton = () => {
+    const buttonText = screen === "uploaded" ? "Ir al home" : screen === "loaded" ? "Subir película" : "Siguiente"
+    return (
+      <S.UploadButton
+        className={cs({ uploaded: movieTitle && movieFile })}
+        disabled={screen === "loading"}
+        onClick={handleUploadMovieClick}
+      >
+        {buttonText}
+      </S.UploadButton>
+    )
   }
 
   return (
     <S.Overlay className={cs({ open: isOpen })}>
       <S.UploadModal>
-        {screen !== "uploaded" && <S.Header>Agregar película</S.Header>}
+        {renderHeader()}
         <S.CloseIcon src={closeSvg} onClick={toggleIsOpen} />
-
         {component}
-
-        {screen !== "uploaded" && (
-          <S.InputTitle
-            placeholder="TÍTULO"
-            ref={inputTitleRef}
-            value={movieTitle}
-            onChange={(event) => handleMovieTitleChange(event.target.value)}
-          />
-        )}
-        <S.UploadButton
-          className={cs({ uploaded: movieTitle && movieFile })}
-          disabled={screen === "loading"}
-          onClick={handleUploadMovieClick}
-        >
-          {screen === "uploaded"
-            ? "Ir al home"
-            : screen === "loaded"
-            ? "Subir película"
-            : "Siguiente"}
-        </S.UploadButton>
+        {renderInputTitle()}
+        {renderUploadButton()}
       </S.UploadModal>
     </S.Overlay>
   )

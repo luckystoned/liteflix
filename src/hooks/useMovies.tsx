@@ -2,10 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { fetchPopularMovies, getSavedMovies, uploadMovieToDb } from '../data/rest/liteflixRest';
 import { MoviesDto, GetSavedMoviesDto, UseMoviesDto, Category, CategoryKey } from '../types/liteflixTypes';
 import { useToggle } from './useToggle';
-import { availableMovieCategories } from '../utils/utils';
-
-//TODO ADD TO UTILS
-
+import { availableMovieCategories } from '../utils';
 
 // Hook personalizado para gestionar las categorías de películas
 export const useMovies = (): UseMoviesDto => {

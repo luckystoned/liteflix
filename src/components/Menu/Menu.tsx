@@ -4,10 +4,38 @@ import { MenuContext } from "../../context";
 import { useDevice } from "../../hooks";
 import { AddMovieButton, BurgerMenu } from "..";
 import { AppLogo, Flex, Text, WithBadge } from "../../styles";
+import { menuListItems } from "../../utils";
 import * as S from "./Menu.styles";
 import bellSvg from "../../assets/img/bell.svg";
 import profileImage from "../../assets/img/profile-image.png";
-import { menuListItems } from "../../utils/utils";
+
+const HeaderContent: React.FC<{ isMobile: boolean }> = ({ isMobile }) => (
+  <>
+    {!isMobile ? (
+      <Flex $gap="2">
+        <WithBadge>
+          <img src={bellSvg} alt="bell with notification badge" />
+        </WithBadge>
+        <img src={profileImage} alt="user profile pic" />
+      </Flex>
+    ) : (
+      <>
+        <AppLogo />
+        <img src={profileImage} alt="user profile pic" />
+      </>
+    )}
+  </>
+);
+
+const MenuList: React.FC = () => (
+  <S.ListItems>
+    {menuListItems.map((list) => (
+      <Text key={list} $size="22px">
+        {list}
+      </Text>
+    ))}
+  </S.ListItems>
+);
 
 export const Menu: React.FC = () => {
   const { isOpen } = useContext(MenuContext);
@@ -18,35 +46,10 @@ export const Menu: React.FC = () => {
       <S.Container>
         <S.Header>
           <BurgerMenu />
-
-          {!isMobile && (
-            <Flex $gap="2">
-              <WithBadge>
-                <img src={bellSvg} alt="bell with notification badge" />
-              </WithBadge>
-
-              <img src={profileImage} alt="user profile pic" />
-            </Flex>
-          )}
-
-          {isMobile && (
-            <>
-              <AppLogo />
-              <img src={profileImage} alt="user profile pic" />
-            </>
-          )}
+          <HeaderContent isMobile={isMobile} />
         </S.Header>
-
-        <S.ListItems>
-          {menuListItems.map((list) => (
-            <Text key={list} $size="22px">
-              {list}
-            </Text>
-          ))}
-        </S.ListItems>
-
+        <MenuList />
         <AddMovieButton size="22px" />
-
         <Text $size="22px">Cerrar Sesión</Text>
       </S.Container>
     </S.Menu>

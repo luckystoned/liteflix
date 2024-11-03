@@ -15,6 +15,12 @@ export interface ContextProviderProps {
   children: ReactNode;
 }
 
+export interface DropZoneTextProps {
+  isDragActive: boolean;
+  movieFile: File | null;
+  isMobile: boolean;
+}
+
 export interface GetSavedMoviesDto {
   _id: string;
   title: string;
@@ -80,6 +86,14 @@ export interface UploadScreensState {
   nextScreen: string;
 }
 
+export interface UseDropDownDto {
+  currentCategory: Category;
+  availableMovieCategories: Record<CategoryKey, Category>;
+  isOpen: boolean;
+  handleDropDownClick: () => void;
+  handleCategoryItemClick: (tag: CategoryKey) => void;
+}
+
 export interface UseMoviesDto {
   currentCategory: Category;
   availableMovieCategories: Record<CategoryKey, Category>;
@@ -97,7 +111,7 @@ export interface UseMoviesDto {
   toggleIsOpen: () => void;
 }
 
-export interface UseToggle {
+export interface UseToggleDto {
   isOpen: boolean;
   toggleIsOpen: () => void;
 }

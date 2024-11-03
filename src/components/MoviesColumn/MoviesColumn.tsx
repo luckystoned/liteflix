@@ -3,44 +3,45 @@ import { MoviesContext } from "../../context";
 import { MoviePreview } from "../MoviePreview/MoviePreview";
 import { Text } from "../../styles";
 import * as S from "./MoviesColumn.styles";
-import sadFaceSvg from "../../assets/img/sad-face.png";
 import { Movie } from "../../types/liteflixTypes";
 
-export const MoviesColumn: React.FC = () => {
-  const { movies, isLoading } = useContext(MoviesContext);
+const NoMovies: React.FC = () => (
+  <Text style={{ textAlign: "center" }}>
+    Todavia no agregaste ninguna pelicula
+  </Text>
+);
 
-  const renderSkeleton = () => {
-    return [1, 2, 3, 4].map((number) => <S.MovieSkeleton key={number} />);
-  };
+const MovieSkeletons: React.FC = () => (
+  <>
+    {[1, 2, 3, 4].map((number) => (
+      <S.MovieSkeleton key={number} />
+    ))}
+  </>
+);
 
-  //TODO REMOVE FOR A BETTER SOLUTION
-  const renderSadFace = () => {
-    return (
-      <>
-        <img src={sadFaceSvg} alt="sad face" />
-        <Text style={{ textAlign: "center" }}>
-          Todavia no agregaste ninguna pelicula
-        </Text>
-      </>
-    );
-  };
-
-  const renderMovies = () => {
-    return movies.map((movieInfo: Movie) => (
+const MovieList: React.FC<{ movies: Movie[] }> = ({ movies }) => (
+  <>
+    {movies.map((movieInfo: Movie) => (
       <MoviePreview
         key={movieInfo._id || movieInfo.backdrop_path}
         movieInfo={movieInfo}
       />
-    ));
-  };
+    ))}
+  </>
+);
+
+export const MoviesColumn: React.FC = () => {
+  const { movies, isLoading } = useContext(MoviesContext);
 
   return (
     <S.MoviesColumn id="movie-list">
-      {isLoading
-        ? renderSkeleton()
-        : !movies || movies.length === 0
-        ? renderSadFace()
-        : renderMovies()}
+      {isLoading ? (
+        <MovieSkeletons />
+      ) : !movies || movies.length === 0 ? (
+        <NoMovies />
+      ) : (
+        <MovieList movies={movies} />
+      )}
     </S.MoviesColumn>
   );
 };

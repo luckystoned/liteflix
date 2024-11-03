@@ -3,7 +3,7 @@ import { uploadFileReducer } from "../store";
 import { useMovies } from "../hooks";
 import { MovieContextDto, ContextProviderProps, UploadScreensState, UseMoviesDto } from "../types/liteflixTypes";
 import { DropZoneScreen } from "../components";
-import { initialState } from "../utils/utils";
+import { initialState } from "../utils";
 
 
 const contextInitialState: UploadScreensState = initialState(<DropZoneScreen />);
