@@ -1,13 +1,5 @@
-import axios, { AxiosInstance } from 'axios';
-// import getConfig from "next/config";
+import { createApiAxios } from './createApiAxios';
 
-// const { publicRuntimeConfig } = getConfig();
-
-// const { cloudinaryBaseUrl, cloudinaryCloudName } = publicRuntimeConfig;
-//TODO ADD ENV VARIABLES y PASAR Al GATEWAY
-const apiCloudinary: AxiosInstance = axios.create({
-  // baseURL: `${cloudinaryBaseUrl}/v1_1/${cloudinaryCloudName}`,
-  baseURL: `https://api.cloudinary.com/v1_1/luckystoned`,
-});
+const apiCloudinary = createApiAxios(process.env.REACT_APP_CLOUDINARY_BASE_URL || '');
 
 export default apiCloudinary;

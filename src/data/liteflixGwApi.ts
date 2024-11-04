@@ -1,6 +1,5 @@
 import { createApiAxios } from './createApiAxios';
 
-//TODO USE ENV VAR
-const liteflixGwApi = createApiAxios("http://localhost:3000");
+const liteflixGwApi = createApiAxios(process.env.REACT_APP_LITEFLIX_GW_BASE_URL || '');
 
 export default liteflixGwApi;

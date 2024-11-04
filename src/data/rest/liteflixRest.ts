@@ -5,9 +5,9 @@ import apiCloudinary from '../apiCloudinary';
 export const getSavedMovies = async (): Promise<MoviesDto[]> => {
   try {
     const response = await liteflixGwApi.get('/movie');
-    return response.data;
+    return response.data.slice(-4);
   } catch (error) {
-    console.error('Error al obtener las películas guardadas:', error);
+    console.error('Get saved movies error:', error);
     return [];
   }
 };
@@ -17,7 +17,7 @@ export const fetchPopularMovies = async (): Promise<MoviesDto[]> => {
     const response = await liteflixGwApi.get('/movie/popular');
     return response.data.slice(-4);
   } catch (error) {
-    console.error('Error al obtener las películas populares:', error);
+    console.error('Fetch popular movies error:', error);
     return [];
   }
 };
@@ -33,7 +33,7 @@ export const fetchRandomMovies = async (): Promise<MoviesDto[]> => {
     const responseMovies = response.data;
     return responseMovies.slice(-4);
   } catch (error) {
-    console.error('Error al obtener las películas aleatorias:', error);
+    console.error('Fetch random movies error:', error);
     return [];
   }
 };
@@ -41,36 +41,30 @@ export const fetchRandomMovies = async (): Promise<MoviesDto[]> => {
 const uploadImageToCloudinary = async (file: File): Promise<string | null> => {
   const formData = new FormData();
   formData.append('file', file);
-  formData.append('upload_preset', 'liteflix-preset');
+  formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET || '');
 
   try {
     const response = await apiCloudinary.post('/upload', formData);
     return response.data.secure_url;
   } catch (error) {
-    console.error('Error subiendo la imagen a Cloudinary:', error);
+    console.error('Uploading to Cloudinary Error:', error);
     return null;
   }
 };
 
-//TODO MOVE TO LITEFLIX GW API
 export const uploadMovieToDb = async (movieFile: File, movieTitle: string) => {
-  const fileUrl = await uploadImageToCloudinary(movieFile); // Usa movieFile directamente
-
-  //quitar if
+  const fileUrl = await uploadImageToCloudinary(movieFile);
   if (fileUrl) {
     try {
       const response = await liteflixGwApi.post('/movie', {
         title: movieTitle,
         imgUrl: fileUrl,
       });
-      console.log('Película guardada en la base de datos:', response.data);
-
-      //TODO setIsUploaded(true);
       return response.data;
     } catch (error) {
-      console.error('Error guardando la película en la base de datos:', error);
+      console.error('Upload movie to db error:', error);
     }
   } else {
-    console.log('Error: No se pudo subir la imagen a Cloudinary');
+    console.error('File upload to Cloudinary failed');
   }
 };

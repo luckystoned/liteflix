@@ -1,11 +1,9 @@
 import { useEffect, useState, useCallback } from 'react';
 import { fetchPopularMovies, getSavedMovies, uploadMovieToDb } from '../data/rest/liteflixRest';
-import { MoviesDto, GetSavedMoviesDto, UseMoviesDto, Category, CategoryKey } from '../types/liteflixTypes';
+import { MoviesDto, UseMoviesDto, Category, CategoryKey } from '../types/liteflixTypes';
 import { useToggle } from './useToggle';
 import { availableMovieCategories } from '../utils';
 
-// Hook personalizado para gestionar las categorías de películas
-//TODO REFACTOR MULTIPLE RENDERING
 export const useMovies = (): UseMoviesDto => {
   const [movieTitle, setMovieTitle] = useState<string>("");
   const [movieFile, setMovieFile] = useState<File>(
@@ -14,21 +12,18 @@ export const useMovies = (): UseMoviesDto => {
   const [isUploaded, setIsUploaded] = useState<boolean>(false);
   const { isOpen, toggleIsOpen } = useToggle();
   const [currentCategory, setCurrentCategory] = useState<Category>(availableMovieCategories['popular']);
-  const [movies, setMovies] = useState<any[]>([]);// TODO REFACTOR TO USE MOVIEDTO REMOVE COMMENTAs
+  const [movies, setMovies] = useState<MoviesDto[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // Función para cambiar de categoría
   const changeToCategory = useCallback((category: CategoryKey) => {
     setCurrentCategory(availableMovieCategories[category]);
   }, []);
 
-  // Función para obtener las películas según la categoría seleccionada
-  //TODO REFACTOR TO JUST DO ONE FETCH FUNCTION THE LOGIC OF WHICH FETCH TO USE SHOULD BE IN THE REST FILE
   const getMoviesByCategory = useCallback(async (category: Category) => {
     setIsLoading(true);
 
     try {
-      let fetchedMovies: (MoviesDto | GetSavedMoviesDto)[] = [];
+      let fetchedMovies: MoviesDto[] = [];
       switch (category.tag) {
         case 'popular':
           fetchedMovies = await fetchPopularMovies();
@@ -37,26 +32,29 @@ export const useMovies = (): UseMoviesDto => {
           fetchedMovies = await getSavedMovies();
           break;
         default:
-          fetchedMovies = []; // Default case for future categories
+          fetchedMovies = [];
           console.warn(`No fetch function defined for category: ${category.tag}`);
           break;
       }
 
       setMovies(fetchedMovies);
     } catch (error) {
-      console.error('Error al obtener películas:', error);
+      console.error('Error fetching movies:', error);
     } finally {
       setIsLoading(false);
     }
   }, []);
 
   const uploadMovie = useCallback(async (movieFile: File, movieTitle: string) => {
-    const response = await uploadMovieToDb(movieFile, movieTitle);
-    console.log('Película guardada en la base de datos:', response);
+    try {
+      await uploadMovieToDb(movieFile, movieTitle);
+      setIsUploaded(true);
+    } catch (error) {
+      console.error('Error uploading movie:', error);
+    }
   }
   , []);
 
-  // Ejecutar al cambiar de categoría
   useEffect(() => {
     getMoviesByCategory(currentCategory);
   }, [currentCategory, getMoviesByCategory]);

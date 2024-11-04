@@ -4,7 +4,7 @@ import { useMovieBackground } from "./useMovieBackground";
 import { MoviesDto } from "../types/liteflixTypes";
 
 export const useRandomMovie = () => {
-  //TODO REFACTOR TO USE A HOOK FOR MOVIE BACKGROUND
+
   const [currentRandomMovie, setCurrentRandomMovie] = useState<MoviesDto>({} as MoviesDto);
 
   const [randomMovies, setRandomMovies] = useState<MoviesDto[]>([]);

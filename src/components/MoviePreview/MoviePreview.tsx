@@ -5,8 +5,6 @@ import { Text } from "../../styles";
 import * as S from "./MoviePreview.styles";
 import { MoviesDto } from "../../types/liteflixTypes";
 
-
-//TODO IMAGE SHOULD BE A BACKGROUND IMAGE
 const BackgroundImage: React.FC<{ movie: MoviesDto }> = ({ movie }) => (
   <S.BackgroundImage
     alt={`${movie.title} background image`}

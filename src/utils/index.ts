@@ -15,7 +15,7 @@ export const menuListItems: string[] = [
   'Mis peliculas',
   'Mi lista',
 ];
-//TODO availableMovieCategories should come from the backend
+
 export const availableMovieCategories: Record<CategoryKey, Category> = {
   popular: {
     title: 'Populares',
