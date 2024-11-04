@@ -9,7 +9,7 @@ import arrowDownSvg from "../../assets/img/down-arrow.svg";
 
 
 const CategoryList: React.FC<{ categories: Category[], currentCategory: Category, onCategoryClick: (tag: CategoryKey) => void }> = ({ categories, currentCategory, onCategoryClick }) => (
-  <ul>
+  <>
     {categories.map((category) => (
       <li onClick={() => onCategoryClick(category.tag)} key={category.tag}>
         <Text $weight={category.tag === currentCategory.tag ? "bold" : "normal"} $size="16px">
@@ -17,7 +17,7 @@ const CategoryList: React.FC<{ categories: Category[], currentCategory: Category
         </Text>
       </li>
     ))}
-  </ul>
+  </>
 );
 
 export const DropDown: React.FC = () => {

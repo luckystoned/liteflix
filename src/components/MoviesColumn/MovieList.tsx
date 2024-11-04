@@ -1,13 +1,13 @@
 import React from "react";
 import { MoviePreview } from "../MoviePreview/MoviePreview";
-import { Movie } from "../../types/liteflixTypes";
+import { MoviesDto } from "../../types/liteflixTypes";
 
-const MovieList: React.FC<{ movies: Movie[] }> = ({ movies }) => (
+const MovieList: React.FC<{ movies: MoviesDto[] }> = ({ movies }) => (
   <>
-    {movies.map((movieInfo: Movie) => (
+    {movies.map((movie: MoviesDto) => (
       <MoviePreview
-        key={movieInfo._id || movieInfo.backdrop_path}
-        movieInfo={movieInfo}
+        key={movie.id}
+        movie={movie}
       />
     ))}
   </>

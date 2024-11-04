@@ -11,7 +11,6 @@ export const DropDown = styled.div`
     display: flex;
     align-items: center;
     gap: 1ch;
-
     margin-left: 1ch;
     cursor: pointer;
   }

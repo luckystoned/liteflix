@@ -3,57 +3,53 @@ import cs from "classnames";
 import { useToggle } from "../../hooks";
 import { Text } from "../../styles";
 import * as S from "./MoviePreview.styles";
-import { MoviePreviewProps } from "../../types/liteflixTypes";
+import { MoviesDto } from "../../types/liteflixTypes";
 
 
 //TODO IMAGE SHOULD BE A BACKGROUND IMAGE
-const BackgroundImage: React.FC<{ movieInfo: MoviePreviewProps['movieInfo'] }> = ({ movieInfo }) => (
+const BackgroundImage: React.FC<{ movie: MoviesDto }> = ({ movie }) => (
   <S.BackgroundImage
-    alt={`${movieInfo.title} background image`}
-    src={
-      movieInfo.isUserMovie
-        ? movieInfo.imgUrl
-        : `https://image.tmdb.org/t/p/w500/${movieInfo.backdrop_path}`
-    }
+    alt={`${movie.title} background image`}
+    src={movie.imgUrl}
   />
 );
 
-const OverlayContent: React.FC<{ movieInfo: MoviePreviewProps['movieInfo'] }> = ({ movieInfo }) => (
+const OverlayContent: React.FC<{ movie: MoviesDto }> = ({ movie }) => (
   <>
     <Text $weight="bold" className="title">
       <S.SmallPlayButton />
-      {movieInfo.title}
+      {movie.title}
     </Text>
-    {!movieInfo.isUserMovie && (
+    {!movie.isUserMovie && (
       <>
         <Text $size="14px" className="vote-average">
           <S.StarIcon />
-          {movieInfo.vote_average}
+          {movie.voteAverage}
         </Text>
         <Text $size="14px" className="release-date">
-          {movieInfo.release_date?.slice(0, 4)}
+          {movie.releaseDate?.slice(0, 4)}
         </Text>
       </>
     )}
   </>
 );
 
-export const MoviePreview: React.FC<MoviePreviewProps> = ({ movieInfo }) => {
+export const MoviePreview: React.FC<{ movie: MoviesDto }> = ({ movie }) => {
   const { isOpen, toggleIsOpen } = useToggle();
 
   return (
     <S.MoviePreview>
-      <BackgroundImage movieInfo={movieInfo} />
+      <BackgroundImage movie={movie} />
       <S.BackgroundOverlay className={cs({ open: isOpen })}>
         <S.BigPlayButton />
-        <Text className="title">{movieInfo.title}</Text>
+        <Text className="title">{movie.title}</Text>
       </S.BackgroundOverlay>
       <S.Overlay
         className={cs({ open: isOpen })}
         onMouseEnter={toggleIsOpen}
         onMouseLeave={toggleIsOpen}
       >
-        <OverlayContent movieInfo={movieInfo} />
+        <OverlayContent movie={movie} />
       </S.Overlay>
     </S.MoviePreview>
   );

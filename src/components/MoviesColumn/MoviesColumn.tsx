@@ -13,7 +13,7 @@ export const MoviesColumn: React.FC = () => {
   }
 
   return (
-    <S.MoviesColumn>
+    <S.MoviesColumn id="movie-list">
       {movies.length === 0 ? <NoMovies /> : <MovieList movies={movies} />}
     </S.MoviesColumn>
   );

@@ -18,7 +18,7 @@ export const useRandomMovie = () => {
 
     if (movies.length > 0) {
       const firstMovie = movies[0];
-      changeMovieBackground(firstMovie.backdrop_path);
+      changeMovieBackground(firstMovie.backdropPath);
       setCurrentRandomMovie(firstMovie);
       setAlreadyShownMovies([firstMovie.id]);
     }
@@ -28,7 +28,7 @@ export const useRandomMovie = () => {
     const movieNotShown = randomMovies.find((movie) => !alreadyShownMovies.includes(movie.id));
 
     if (movieNotShown) {
-      changeMovieBackground(movieNotShown.backdrop_path);
+      changeMovieBackground(movieNotShown.backdropPath);
       setCurrentRandomMovie(movieNotShown);
       setAlreadyShownMovies((prev) => [...prev, movieNotShown.id]);
     } else {

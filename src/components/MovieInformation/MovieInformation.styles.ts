@@ -33,7 +33,7 @@ export const Title = styled.h2<{ size: string }>`
   text-align: center;
 
   @media (min-width: ${(props) => props.theme.breakpoints.tablet}) {
-    font-size: 120px;
+    font-size: ${(props) => props.size};
     text-align: left;
   }
 

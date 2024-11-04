@@ -15,6 +15,7 @@ const ActionButton: React.FC<React.PropsWithChildren<{ icon: string; alt: string
 export const MovieInformation: React.FC = () => {
   const { currentRandomMovie } = useRandomMovie();
   const { title } = currentRandomMovie;
+  const titleSize = title?.length > 30 ? "60px" : "120px";
 
   return (
     <S.MovieInformation>
@@ -22,7 +23,7 @@ export const MovieInformation: React.FC = () => {
         Original de <b>liteflix</b>
       </Text>
 
-      <S.Title size="20px">{title}</S.Title>
+      <S.Title size={titleSize}>{title}</S.Title>
 
       <S.ResponsiveHorToVer>
         <ActionButton icon={playSvg} alt="play icon">

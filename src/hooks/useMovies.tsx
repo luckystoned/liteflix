@@ -5,6 +5,7 @@ import { useToggle } from './useToggle';
 import { availableMovieCategories } from '../utils';
 
 // Hook personalizado para gestionar las categorías de películas
+//TODO REFACTOR MULTIPLE RENDERING
 export const useMovies = (): UseMoviesDto => {
   const [movieTitle, setMovieTitle] = useState<string>("");
   const [movieFile, setMovieFile] = useState<File>(
@@ -13,7 +14,7 @@ export const useMovies = (): UseMoviesDto => {
   const [isUploaded, setIsUploaded] = useState<boolean>(false);
   const { isOpen, toggleIsOpen } = useToggle();
   const [currentCategory, setCurrentCategory] = useState<Category>(availableMovieCategories['popular']);
-  const [movies, setMovies] = useState<any[]>([]);
+  const [movies, setMovies] = useState<any[]>([]);// TODO REFACTOR TO USE MOVIEDTO REMOVE COMMENTAs
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // Función para cambiar de categoría
