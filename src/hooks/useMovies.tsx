@@ -4,6 +4,11 @@ import { MoviesDto, UseMoviesDto, Category, CategoryKey } from '../types/litefli
 import { useToggle } from './useToggle';
 import { availableMovieCategories } from '../utils';
 
+/**
+ * Custom hook to manage movie data and related actions.
+ * 
+ * @returns {UseMoviesDto} An object containing movie data and functions to interact with it.
+ */
 export const useMovies = (): UseMoviesDto => {
   const [movieTitle, setMovieTitle] = useState<string>("");
   const [movieFile, setMovieFile] = useState<File>(
@@ -15,10 +20,20 @@ export const useMovies = (): UseMoviesDto => {
   const [movies, setMovies] = useState<MoviesDto[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  /**
+   * Changes the current movie category.
+   * 
+   * @param {CategoryKey} category - The key of the category to switch to.
+   */
   const changeToCategory = useCallback((category: CategoryKey) => {
     setCurrentCategory(availableMovieCategories[category]);
   }, []);
 
+  /**
+   * Fetches movies based on the selected category.
+   * 
+   * @param {Category} category - The category of movies to fetch.
+   */
   const getMoviesByCategory = useCallback(async (category: Category) => {
     setIsLoading(true);
 
@@ -45,6 +60,12 @@ export const useMovies = (): UseMoviesDto => {
     }
   }, []);
 
+  /**
+   * Uploads a new movie to the database.
+   * 
+   * @param {File} movieFile - The movie file to upload.
+   * @param {string} movieTitle - The title of the movie.
+   */
   const uploadMovie = useCallback(async (movieFile: File, movieTitle: string) => {
     try {
       await uploadMovieToDb(movieFile, movieTitle);
@@ -52,8 +73,7 @@ export const useMovies = (): UseMoviesDto => {
     } catch (error) {
       console.error('Error uploading movie:', error);
     }
-  }
-  , []);
+  }, []);
 
   useEffect(() => {
     getMoviesByCategory(currentCategory);
